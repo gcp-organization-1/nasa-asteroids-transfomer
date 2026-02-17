@@ -1,16 +1,15 @@
-# This is a sample Python script.
+from transformer.asteroids_transformer import AsteroidsTransformer
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+def main(request):
+    try:
+        request_json = request.get_json(silent=True)
+        if request_json is None:
+            return {"error": "Request body must be JSON"}, 400
 
+        transformer = AsteroidsTransformer()
+        df = transformer.transform_asteroids_data(request_json)
+        to_str = df.to_string()
+        return to_str
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    except Exception as e:
+        return {"error": str(e)}, 500

@@ -14,3 +14,4 @@ steps:
       - '--entry-point=main'
       - '--trigger-http'
       - '--allow-unauthenticated'
+      - '--set-env-vars=ASTEROIDS_BUCKET=astreoids-bucket'

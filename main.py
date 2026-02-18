@@ -1,5 +1,6 @@
 from transformer.asteroids_transformer import AsteroidsTransformer
 from gcp.gcs import GCSClient
+from config.logger import logger
 
 def main(request):
     request_json = request.get_json(silent=True)
@@ -16,8 +17,9 @@ def main(request):
         df = transformer.transform_asteroids_data(raw_data)
 
         output_path = "processed/data.csv"
-
+        logger.info("Uploading transform data to GCS")
         gcs.upload_transformed_data_to_gcs(df, output_path)
+        logger.info("Uploaded successfully")
 
         return {"message": "Transform complete", "file_path": output_path}
 
